@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pic_kids/constants/constants.dart';
+import 'package:pic_kids/views/contact_screen.dart';
+import 'package:pic_kids/views/histry_screen.dart';
 import 'package:pic_kids/views/home_screen.dart';
 import 'package:pic_kids/views/login_screen.dart';
-import 'package:pic_kids/views/notifications_screen.dart';
+import 'package:pic_kids/views/notifications/notifications_screen.dart';
 import 'package:pic_kids/views/pickup_screen.dart';
 import 'package:pic_kids/views/profile_screen.dart';
+import 'package:pic_kids/views/registers/child_info_screen.dart';
+import 'package:pic_kids/views/registers/personal_info_screen.dart';
+import 'package:pic_kids/views/registers/spouse_info_screen.dart';
+import 'package:pic_kids/views/registers/vehicle_info_list.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +43,12 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/profile', page: () => ProfileScreen()),
         GetPage(name: '/pickup', page: () => PickupScreen()),
         GetPage(name: '/notification', page: () => NotificationScreen()),
+        GetPage(name: '/history', page: () => HistoryScreen()),
+        GetPage(name: '/contact', page: () => ContactScreen()),
+        GetPage(name: '/persnInfoScreen', page: () => PersonalInfoScreen()),
+        GetPage(name: '/spouseInfoScreen', page: () => SpouseInfoScreen()),
+        GetPage(name: '/childInfoScreen', page: () => ChildInfoScreen()),
+        GetPage(name: '/vehicleInfoScreen', page: () => VehicleInfoScreen()),
       ],
     );
   }

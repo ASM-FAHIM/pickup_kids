@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(180.0),
                           child: Image.asset(
                             'assets/images/profile3.png',
-                            scale: 22,
+                            scale: 20,
                           ),
                         ),
                       ),

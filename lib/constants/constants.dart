@@ -13,3 +13,4 @@ final Color titleColor = Color(0xff5c524f);
 final Color mainBlackColor = Color(0xff332d2b);
 final Color yellowColor = Color(0xffffd379);
 final Color dtContainerColor = Color(0xffF5F5F5);
+final Color defWhite = Color(0xffffffff);
