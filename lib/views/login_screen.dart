@@ -21,12 +21,12 @@ class _LoginScreenState extends State<LoginScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(90),
           child: AppBar(
-            iconTheme: IconThemeData(color: Colors.red),
             centerTitle: true,
+            automaticallyImplyLeading: false,
             title: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                ' Dashboard',
+                ' Welcome',
                 style: TextStyle(
                   color: mainBlackColor,
                   fontSize: 40,
@@ -51,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     'pick kiDs',
                     style: TextStyle(
                       color: mainBlackColor,
-                      fontFamily: 'Roboto',
                       fontSize: 40,
                       fontWeight: FontWeight.w700,
                     ),
@@ -59,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: 40,
+                height: 90,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
@@ -172,7 +171,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Text('Don’t Have and account?'),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed('/persnInfoScreen');
+                      },
                       child: Text(
                         'Create account',
                         style: TextStyle(
