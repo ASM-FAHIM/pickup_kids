@@ -61,9 +61,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: Obx(() {
                 if (notifyController.isLoading.value) {
                   return Center(
-                    child: Container(
-                      margin: EdgeInsets.all(10.0),
-                      child: CircularProgressIndicator(),
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(10.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                        Text('Loading...'),
+                      ],
                     ),
                   );
                 } else {

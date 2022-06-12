@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pic_kids/constants/constants.dart';
 import 'package:pic_kids/views/contact_screen.dart';
+import 'package:pic_kids/views/forgot/forgot_otp_screen.dart';
+import 'package:pic_kids/views/forgot/forgot_pass_text.dart';
 import 'package:pic_kids/views/histry_screen.dart';
 import 'package:pic_kids/views/home_screen.dart';
 import 'package:pic_kids/views/login_screen.dart';
@@ -10,6 +12,8 @@ import 'package:pic_kids/views/pickup_screen.dart';
 import 'package:pic_kids/views/profile_screen.dart';
 import 'package:pic_kids/views/registers/child_info_screen.dart';
 import 'package:pic_kids/views/registers/personal_info_screen.dart';
+import 'package:pic_kids/views/registers/regi_otp_screen.dart';
+import 'package:pic_kids/views/registers/regi_success_screen.dart';
 import 'package:pic_kids/views/registers/spouse_info_screen.dart';
 import 'package:pic_kids/views/registers/vehicle_info_list.dart';
 
@@ -49,6 +53,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/spouseInfoScreen', page: () => SpouseInfoScreen()),
         GetPage(name: '/childInfoScreen', page: () => ChildInfoScreen()),
         GetPage(name: '/vehicleInfoScreen', page: () => VehicleInfoScreen()),
+        GetPage(name: '/regiOTPScreen', page: () => RegiOTPScreen()),
+        GetPage(name: '/regiSuccessScreen', page: () => RegiSucessScreen()),
+        GetPage(name: '/forgotTxtfldScreen', page: () => ForgotPassTxtfld()),
+        GetPage(name: '/forgotOTPScreen', page: () => ForgotOTPScreen()),
       ],
     );
   }
