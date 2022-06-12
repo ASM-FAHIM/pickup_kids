@@ -157,11 +157,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10, left: 231),
-                child: Text(
-                  "Forgot password",
-                  style: TextStyle(color: forgotColor),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed('/forgotTxtfldScreen');
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 231),
+                  child: Text(
+                    "Forgot password",
+                    style: TextStyle(
+                        color: forgotColor, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               Padding(

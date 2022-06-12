@@ -232,12 +232,7 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
                             width: 194,
                             child: ElevatedButton(
                               onPressed: () {
-                                Get.toNamed('/login');
-                                Get.snackbar(
-                                  'Success',
-                                  'Successfully completed',
-                                  backgroundColor: Colors.white,
-                                );
+                                Get.toNamed('/regiOTPScreen');
                               },
                               style:
                                   ElevatedButton.styleFrom(primary: mainColor),
