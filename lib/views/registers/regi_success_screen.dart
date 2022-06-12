@@ -57,9 +57,10 @@ class _RegiSucessScreenState extends State<RegiSucessScreen> {
             Text(
               "Verification Successful.",
               style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
-                  color: mainBlackColor),
+                fontSize: 25,
+                fontWeight: FontWeight.w500,
+                color: mainBlackColor,
+              ),
             ),
           ],
         ),
