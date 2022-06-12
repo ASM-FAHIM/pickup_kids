@@ -7,6 +7,7 @@ import 'package:pic_kids/views/forgot/forgot_pass_text.dart';
 import 'package:pic_kids/views/histry_screen.dart';
 import 'package:pic_kids/views/home_screen.dart';
 import 'package:pic_kids/views/login_screen.dart';
+import 'package:pic_kids/views/map_screen.dart';
 import 'package:pic_kids/views/notifications/notifications_screen.dart';
 import 'package:pic_kids/views/pickup_screen.dart';
 import 'package:pic_kids/views/profile_screen.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Hello Pharma',
+      title: 'Pick-Kids',
       theme: ThemeData().copyWith(
         // primaryColor: Color(0xFF28706F),
         scaffoldBackgroundColor: Colors.white,
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/notification', page: () => NotificationScreen()),
         GetPage(name: '/history', page: () => HistoryScreen()),
         GetPage(name: '/contact', page: () => ContactScreen()),
+        GetPage(name: '/map', page: () => MapScreen()),
         GetPage(name: '/persnInfoScreen', page: () => PersonalInfoScreen()),
         GetPage(name: '/spouseInfoScreen', page: () => SpouseInfoScreen()),
         GetPage(name: '/childInfoScreen', page: () => ChildInfoScreen()),

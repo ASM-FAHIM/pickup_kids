@@ -25,8 +25,11 @@ class CusOTPTxtfld extends StatelessWidget {
             counterText: ' ',
             hintStyle: TextStyle(color: Colors.grey, fontSize: 20)),
         onChanged: (value) {
+          //focus scope next and previous use for control the controller movement.
           if (value.length == 1) {
             FocusScope.of(context).nextFocus();
+          } else if (value.isEmpty) {
+            FocusScope.of(context).previousFocus();
           }
         },
       ),

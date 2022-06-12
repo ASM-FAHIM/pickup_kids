@@ -56,13 +56,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 30,
               ),
 
-              ///Container for date and time showing
+              //Container for date and time showing
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 20),
                 child: DateContainer(),
               ),
 
-              ///Container for first blue Row
+              //Container for first blue Row
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Container(

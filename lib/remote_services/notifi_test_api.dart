@@ -10,7 +10,7 @@ class NotificationAPI {
     var response =
         await get(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
     if (response.statusCode == 200) debugPrint('--------------');
-    log(response.body);
+    log('Successfully fetched');
     debugPrint('--------------');
     return notificationModelFromJson(response.body);
   }

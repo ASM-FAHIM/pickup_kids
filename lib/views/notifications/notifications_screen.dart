@@ -62,6 +62,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 if (notifyController.isLoading.value) {
                   return Center(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           margin: EdgeInsets.all(10.0),
