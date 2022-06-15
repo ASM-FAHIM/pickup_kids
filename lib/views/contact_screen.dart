@@ -22,28 +22,22 @@ class _ContactScreenState extends State<ContactScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(90),
           child: AppBar(
-            leading: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: IconButton(
-                  onPressed: () {
-                    scaffoldKey.currentState?.openDrawer();
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                    color: mainBlackColor,
-                    size: 35,
-                  )),
-            ),
-            title: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                ' History',
-                textAlign: TextAlign.center,
-                style: TextStyle(
+            leading: IconButton(
+                onPressed: () {
+                  scaffoldKey.currentState?.openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
                   color: mainBlackColor,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                ),
+                  size: 35,
+                )),
+            title: Text(
+              ' History',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: mainBlackColor,
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),

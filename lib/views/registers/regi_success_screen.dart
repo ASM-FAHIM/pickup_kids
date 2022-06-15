@@ -18,16 +18,13 @@ class _RegiSucessScreenState extends State<RegiSucessScreen> {
         child: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Text(
-              ' Verification',
-              style: TextStyle(
-                color: mainBlackColor,
-                //changed size instead of 40
-                fontSize: 35,
-                fontWeight: FontWeight.w700,
-              ),
+          title: Text(
+            ' Verification',
+            style: TextStyle(
+              color: mainBlackColor,
+              //changed size instead of 40
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

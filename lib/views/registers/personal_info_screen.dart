@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pic_kids/views/registers/child_info_screen.dart';
 
 import '../../constants/constants.dart';
 
@@ -30,17 +31,14 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
           child: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                ' Register',
-                style: TextStyle(
-                  color: mainBlackColor,
+            title: Text(
+              ' Register',
+              style: TextStyle(
+                color: mainBlackColor,
 
-                  //changed size instead of 40
-                  fontSize: 35,
-                  fontWeight: FontWeight.w700,
-                ),
+                //changed size instead of 40
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
@@ -244,7 +242,9 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                             width: 194,
                             child: ElevatedButton(
                               onPressed: () {
-                                Get.toNamed('/spouseInfoScreen');
+                                Get.to(() => ChildInfoScreen(
+                                    textEditingController:
+                                        childNumController.text));
                               },
                               style:
                                   ElevatedButton.styleFrom(primary: mainColor),

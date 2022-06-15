@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:pic_kids/constants/constants.dart';
+
+import '../models/login_model.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -14,22 +19,58 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
+  late LoginModel data;
+  loginMethod() async {
+    var response = await http.post(
+        Uri.parse('http://172.20.20.69/pick_kids/login_account/login.php'),
+        body: jsonEncode(<String, String>{
+          "user_name": nameController.text,
+        }));
+    debugPrint(response.body);
+    data = loginModelFromJson(response.body);
+    debugPrint(nameController.text.toString());
+    debugPrint(passController.text.toString());
+
+    if (response.body == null) {
+      Get.snackbar(
+        'Failed',
+        'User not found',
+        backgroundColor: Colors.white,
+      );
+    } else if (response.statusCode == 200 &&
+        data.userPassword == passController.text.toString()) {
+      Get.snackbar(
+        'Success',
+        'login Successful',
+        backgroundColor: Colors.white,
+      );
+      Get.toNamed('/dashboard');
+    } else {
+      Get.snackbar(
+        "Error",
+        "Credential did not match",
+        colorText: Colors.red,
+        backgroundColor: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(90),
+          preferredSize: Size.fromHeight(100),
           child: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: Padding(
-              padding: const EdgeInsets.only(top: 20),
+            title: Center(
               child: Text(
                 ' Welcome',
                 style: TextStyle(
                   color: mainBlackColor,
-                  fontSize: 40,
+                  fontSize: 30,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -143,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: 194,
                           child: ElevatedButton(
                             onPressed: () {
-                              Get.toNamed('/dashboard');
+                              loginMethod();
                             },
                             style: ElevatedButton.styleFrom(primary: mainColor),
                             child: Text(

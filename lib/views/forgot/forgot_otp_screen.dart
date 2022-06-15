@@ -30,16 +30,13 @@ class _ForgotOTPScreenState extends State<ForgotOTPScreen> {
         child: AppBar(
           centerTitle: true,
           automaticallyImplyLeading: false,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Text(
-              ' Forgot Password',
-              style: TextStyle(
-                color: mainBlackColor,
-                //changed size instead of 40
-                fontSize: 35,
-                fontWeight: FontWeight.w700,
-              ),
+          title: Text(
+            ' Forgot Password',
+            style: TextStyle(
+              color: mainBlackColor,
+              //changed size instead of 40
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),

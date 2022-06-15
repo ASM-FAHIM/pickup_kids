@@ -11,7 +11,6 @@ import 'package:pic_kids/views/map_screen.dart';
 import 'package:pic_kids/views/notifications/notifications_screen.dart';
 import 'package:pic_kids/views/pickup_screen.dart';
 import 'package:pic_kids/views/profile_screen.dart';
-import 'package:pic_kids/views/registers/child_info_screen.dart';
 import 'package:pic_kids/views/registers/personal_info_screen.dart';
 import 'package:pic_kids/views/registers/regi_otp_screen.dart';
 import 'package:pic_kids/views/registers/regi_success_screen.dart';
@@ -53,7 +52,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/map', page: () => MapScreen()),
         GetPage(name: '/persnInfoScreen', page: () => PersonalInfoScreen()),
         GetPage(name: '/spouseInfoScreen', page: () => SpouseInfoScreen()),
-        GetPage(name: '/childInfoScreen', page: () => ChildInfoScreen()),
+        // GetPage(name: '/childInfoScreen', page: () => ChildInfoScreen(textEditingController: null,)),
         GetPage(name: '/vehicleInfoScreen', page: () => VehicleInfoScreen()),
         GetPage(name: '/regiOTPScreen', page: () => RegiOTPScreen()),
         GetPage(name: '/regiSuccessScreen', page: () => RegiSucessScreen()),
