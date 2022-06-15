@@ -24,17 +24,14 @@ class _SpouseInfoScreenState extends State<SpouseInfoScreen> {
           child: AppBar(
             centerTitle: true,
             automaticallyImplyLeading: false,
-            title: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                ' Register',
-                style: TextStyle(
-                  color: mainBlackColor,
+            title: Text(
+              ' Register',
+              style: TextStyle(
+                color: mainBlackColor,
 
-                  //changed size instead of 40
-                  fontSize: 35,
-                  fontWeight: FontWeight.w700,
-                ),
+                //changed size instead of 40
+                fontSize: 30,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
