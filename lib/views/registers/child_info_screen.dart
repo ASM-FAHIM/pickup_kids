@@ -5,8 +5,12 @@ import '../../constants/constants.dart';
 
 class ChildInfoScreen extends StatefulWidget {
   final String textEditingController;
-  const ChildInfoScreen({Key? key, required this.textEditingController})
-      : super(key: key);
+  // final String vehicleController;
+  const ChildInfoScreen({
+    Key? key,
+    required this.textEditingController,
+    // required this.vehicleController,
+  }) : super(key: key);
 
   @override
   State<ChildInfoScreen> createState() => _ChildInfoScreenState();
@@ -39,23 +43,15 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            Text(
-              'Child Information',
-              style: TextStyle(
-                color: mainBlackColor,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Form(
-              key: _fromKey,
-              child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Form(
+                key: _fromKey,
                 child: Column(
                   children: [
                     Container(
-                      height: 550,
+                      height: 580,
                       child: ListView.builder(
                           itemCount: widget.textEditingController.isEmpty
                               ? 1
@@ -63,6 +59,17 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Text(
+                                    'Child ${index + 1} ' ' Information',
+                                    style: TextStyle(
+                                      color: mainBlackColor,
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 10, left: 10, right: 10),
@@ -147,7 +154,7 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                           }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 200),
+                      padding: const EdgeInsets.only(left: 200, top: 20),
                       child: SizedBox(
                         height: 44,
                         width: 194,
@@ -166,8 +173,8 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
