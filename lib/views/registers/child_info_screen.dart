@@ -1,14 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:pic_kids/models/uid_model.dart';
 
 import '../../constants/constants.dart';
 
 class ChildInfoScreen extends StatefulWidget {
   final String textEditingController;
+  final String userNameController;
   // final String vehicleController;
   const ChildInfoScreen({
     Key? key,
     required this.textEditingController,
+    required this.userNameController,
     // required this.vehicleController,
   }) : super(key: key);
 
@@ -21,6 +27,35 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController classController = TextEditingController();
   final TextEditingController rollController = TextEditingController();
+
+  //getting Uid for inserting row
+  late UidModel data;
+  gettingUidMethod() async {
+    var response = await http.post(
+        Uri.parse('http://172.20.20.69/pick_kids/create_account/returnUid.php'),
+        body: jsonEncode(<String, String>{
+          "user_name": widget.userNameController,
+        }));
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body);
+    data = uidModelFromJson(response.body);
+    debugPrint(widget.userNameController.toString());
+  }
+
+  //create children method
+  createChildrenAccount() async {
+    var response = await http.post(
+        Uri.parse('http://172.20.20.69/pick_kids/create_account/child.php'),
+        body: jsonEncode(<String, String>{
+          "uid": data.uid,
+          // "row" : widget.textEditingController-(widget.textEditingController-),
+          "child_name": nameController.text,
+          "child_class": classController.text,
+          "child_roll": rollController.text,
+          "image": "child's_image",
+        }));
+    debugPrint(response.statusCode.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +130,7 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                                       hintStyle: TextStyle(
                                           color: Colors.grey, fontSize: 15),
                                       prefixIcon: Icon(
-                                        Icons.person,
+                                        Icons.flight_class_rounded,
                                       ),
                                     ),
                                   ),
@@ -132,22 +167,12 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 10,
+                                  height: 50,
                                 ),
-                                Container(
-                                  height: 250,
-                                  width: 250,
-                                  decoration: BoxDecoration(
-                                    color: elButtonColor,
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(180.0),
-                                    child: Image.asset(
-                                      'assets/images/children.png',
-                                      scale: 2,
-                                    ),
-                                  ),
+                                CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/children.png'),
+                                  radius: 100,
                                 ),
                               ],
                             );
@@ -160,6 +185,7 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                         width: 194,
                         child: ElevatedButton(
                           onPressed: () {
+                            createChildrenAccount();
                             Get.toNamed('/vehicleInfoScreen');
                           },
                           style: ElevatedButton.styleFrom(primary: mainColor),

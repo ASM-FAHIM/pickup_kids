@@ -152,22 +152,10 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Container(
-                                      height: 250,
-                                      width: 250,
-                                      decoration: BoxDecoration(
-                                        color: elButtonColor,
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(180.0),
-                                        child: Image.asset(
-                                          'assets/images/carImage.png',
-                                          scale: 2,
-                                        ),
-                                      ),
+                                    CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/images/carImage.png'),
+                                      radius: 100,
                                     ),
                                     SizedBox(
                                       height: 20,
@@ -189,22 +177,10 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    Container(
-                                      height: 250,
-                                      width: 250,
-                                      decoration: BoxDecoration(
-                                        color: elButtonColor,
-                                        borderRadius:
-                                            BorderRadius.circular(5.0),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(180.0),
-                                        child: Image.asset(
-                                          'assets/images/driverImage.png',
-                                          scale: 2,
-                                        ),
-                                      ),
+                                    CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/images/driverImage.png'),
+                                      radius: 100,
                                     ),
                                     SizedBox(
                                       height: 50,

@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:pic_kids/controllers/register_controller.dart';
 import 'package:pic_kids/views/registers/child_info_screen.dart';
@@ -16,10 +18,8 @@ class PersonalInfoScreen extends StatefulWidget {
 }
 
 class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
-  File? pickedFile;
-  int count = 0;
-  ImagePicker imagePicker = ImagePicker();
   final GlobalKey<FormState> _fromKey = GlobalKey();
+  final TextEditingController userNameController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController spouseNameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
@@ -32,6 +32,32 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   final TextEditingController confirmPassController = TextEditingController();
 
   RegisterController registerController = Get.put(RegisterController());
+
+  //for taking image from mobile
+  File? pickedFile;
+  int count = 0;
+  ImagePicker imagePicker = ImagePicker();
+
+  //create profile method
+  createAccount() async {
+    var response = await http.post(
+        Uri.parse('http://172.20.20.69/pick_kids/create_account/profile.php'),
+        body: jsonEncode(<String, String>{
+          "user_name": userNameController.text,
+          "name": nameController.text,
+          "mobile_number": mobileController.text,
+          "spouse_name": spouseNameController.text,
+          "spouse_mobile_number": spouseMobileController.text,
+          "address": addressController.text,
+          "no_of_child": childNumController.text,
+          "no_of_vehicles": vehicleController.text,
+          "email": mailController.text,
+          "password": passController.text,
+          "image": "file",
+          "spouse_image": "file"
+        }));
+    debugPrint(response.statusCode.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +102,21 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                     key: _fromKey,
                     child: Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 10, left: 10, right: 10),
+                          child: TextFormField(
+                            controller: userNameController,
+                            decoration: InputDecoration(
+                              hintText: 'User name',
+                              hintStyle:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
+                              prefixIcon: Icon(
+                                Icons.person,
+                              ),
+                            ),
+                          ),
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(
                               top: 10, left: 10, right: 10),
@@ -333,9 +374,12 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                   count = int.parse(vehicleController.text);
                                   registerController.saveValue(count);
                                 }
+                                createAccount();
                                 Get.to(() => ChildInfoScreen(
                                       textEditingController:
                                           childNumController.text,
+                                      userNameController:
+                                          userNameController.text,
                                       // vehicleController: vehicleController.text,
                                     ));
                               },
