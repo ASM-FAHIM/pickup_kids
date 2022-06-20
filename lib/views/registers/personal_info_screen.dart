@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:pic_kids/controllers/personal_info_controller.dart';
 import 'package:pic_kids/controllers/register_controller.dart';
 import 'package:pic_kids/views/registers/child_info_screen.dart';
 
@@ -31,7 +32,12 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   final TextEditingController passController = TextEditingController();
   final TextEditingController confirmPassController = TextEditingController();
 
+  bool isLoading = true;
+
+  //from controller class
   RegisterController registerController = Get.put(RegisterController());
+  PersonalInfoController personalInfoController =
+      Get.put(PersonalInfoController());
 
   //for taking image from mobile
   File? pickedFile;
@@ -43,20 +49,21 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     var response = await http.post(
         Uri.parse('http://172.20.20.69/pick_kids/create_account/profile.php'),
         body: jsonEncode(<String, String>{
-          "user_name": userNameController.text,
-          "name": nameController.text,
+          "xuser_name": userNameController.text,
+          "uname": nameController.text,
           "mobile_number": mobileController.text,
           "spouse_name": spouseNameController.text,
           "spouse_mobile_number": spouseMobileController.text,
-          "address": addressController.text,
+          "uaddress": addressController.text,
           "no_of_child": childNumController.text,
           "no_of_vehicles": vehicleController.text,
           "email": mailController.text,
-          "password": passController.text,
-          "image": "file",
+          "xpassword": passController.text,
+          "ximage": "file",
           "spouse_image": "file"
         }));
     debugPrint(response.statusCode.toString());
+    debugPrint(response.body.toString());
   }
 
   @override
@@ -368,20 +375,65 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                             width: 194,
                             child: ElevatedButton(
                               onPressed: () {
+                                //for transferring vehicleController value to the vehicle screen.
                                 if (vehicleController.text.isEmpty) {
                                   count = 0;
                                 } else {
                                   count = int.parse(vehicleController.text);
                                   registerController.saveValue(count);
                                 }
-                                createAccount();
-                                Get.to(() => ChildInfoScreen(
-                                      textEditingController:
-                                          childNumController.text,
-                                      userNameController:
-                                          userNameController.text,
-                                      // vehicleController: vehicleController.text,
-                                    ));
+
+                                //for transferring childController value to the child screen.
+                                if (childNumController.text.isEmpty) {
+                                  childNumController.text = 1.toString();
+
+                                  //for using personalInfoController
+                                  createAccount(); //for testing purpose
+                                  personalInfoController.isLoadingControl();
+                                  Get.to(() => ChildInfoScreen(
+                                        textEditingController:
+                                            childNumController.text,
+                                        userNameController:
+                                            userNameController.text,
+                                      ));
+                                } else {
+                                  createAccount(); //for testing purpose
+                                  personalInfoController.isLoadingControl();
+                                  Get.to(() => ChildInfoScreen(
+                                        textEditingController:
+                                            childNumController.text,
+                                        userNameController:
+                                            userNameController.text,
+                                        // vehicleController: vehicleController.text,
+                                      ));
+                                  //   createAccount(); //off for testing screen generator.
+                                  //   Future.delayed(Duration(seconds: 2), () {
+                                  //     setState(() {
+                                  //       isLoading = false;
+                                  //     });
+                                  //     Get.to(() => ChildInfoScreen(
+                                  //           textEditingController:
+                                  //               childNumController.text,
+                                  //           userNameController:
+                                  //               userNameController.text,
+                                  //           // vehicleController: vehicleController.text,
+                                  //         ));
+                                  //   });
+                                  // } else {
+                                  //   createAccount(); //off for testing screen generator.
+                                  //   Future.delayed(Duration(seconds: 2), () {
+                                  //     setState(() {
+                                  //       isLoading = false;
+                                  //     });
+                                  //     Get.to(() => ChildInfoScreen(
+                                  //           textEditingController:
+                                  //               childNumController.text,
+                                  //           userNameController:
+                                  //               userNameController.text,
+                                  //           // vehicleController: vehicleController.text,
+                                  //         ));
+                                  //   });
+                                }
                               },
                               style:
                                   ElevatedButton.styleFrom(primary: mainColor),
@@ -492,3 +544,23 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
     print(pickedFile);
   }
 }
+
+// for using personalInfoController
+// createAccount(); //for testing purpose
+// personalInfoController.isLoadingControl();
+// Get.to(() => ChildInfoScreen(
+// textEditingController:
+// childNumController.text,
+// userNameController:
+// userNameController.text,
+// ));
+// } else {
+// // createAccount(); //for testing purpose
+// personalInfoController.isLoadingControl();
+// Get.to(() => ChildInfoScreen(
+// textEditingController:
+// childNumController.text,
+// userNameController:
+// userNameController.text,
+// // vehicleController: vehicleController.text,
+// ));

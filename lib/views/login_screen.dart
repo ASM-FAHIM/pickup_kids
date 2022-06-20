@@ -29,8 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
     debugPrint(response.body);
     debugPrint(response.statusCode.toString());
     data = loginModelFromJson(response.body);
-    // debugPrint(nameController.text.toString());
-    // debugPrint(passController.text.toString());
 
     if (response.statusCode == 200 &&
         passController.text == data.userPassword) {

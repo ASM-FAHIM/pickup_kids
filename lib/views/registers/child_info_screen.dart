@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:pic_kids/models/uid_model.dart';
+import 'package:pic_kids/views/registers/vehicle_info_list.dart';
 
 import '../../constants/constants.dart';
+import '../../models/uid_model.dart';
 
 class ChildInfoScreen extends StatefulWidget {
+  // const Tab_view({Key? key}) : super(key: key);
+
   final String textEditingController;
   final String userNameController;
   // final String vehicleController;
@@ -22,7 +25,28 @@ class ChildInfoScreen extends StatefulWidget {
   State<ChildInfoScreen> createState() => _ChildInfoScreenState();
 }
 
-class _ChildInfoScreenState extends State<ChildInfoScreen> {
+class _ChildInfoScreenState extends State<ChildInfoScreen>
+    with SingleTickerProviderStateMixin {
+  //Using Tabbar
+  int _tabIndex = 0;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    gettingUidMethod();
+    _tabController = TabController(
+        vsync: this,
+        length: widget.textEditingController.isEmpty
+            ? 1
+            : int.parse(widget.textEditingController));
+  }
+
+  void _toggleTab() {
+    _tabIndex = _tabController.index + 1;
+    _tabController.animateTo(_tabIndex);
+  }
+
   final GlobalKey<FormState> _fromKey = GlobalKey();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController classController = TextEditingController();
@@ -30,11 +54,12 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
 
   //getting Uid for inserting row
   late UidModel data;
+
   gettingUidMethod() async {
     var response = await http.post(
         Uri.parse('http://172.20.20.69/pick_kids/create_account/returnUid.php'),
         body: jsonEncode(<String, String>{
-          "user_name": widget.userNameController,
+          "xuser_name": widget.userNameController,
         }));
     debugPrint(response.statusCode.toString());
     debugPrint(response.body);
@@ -43,140 +68,148 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
   }
 
   //create children method
-  createChildrenAccount() async {
+  createChildrenAccount(int row) async {
     var response = await http.post(
         Uri.parse('http://172.20.20.69/pick_kids/create_account/child.php'),
         body: jsonEncode(<String, String>{
           "uid": data.uid,
-          // "row" : widget.textEditingController-(widget.textEditingController-),
+          "row": row.toString(),
           "child_name": nameController.text,
           "child_class": classController.text,
           "child_roll": rollController.text,
-          "image": "child's_image",
+          "child_image": "childs_image",
         }));
     debugPrint(response.statusCode.toString());
+    debugPrint(response.body.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(90),
-          child: AppBar(
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            title: Text(
-              ' Register',
-              style: TextStyle(
-                color: mainBlackColor,
-
-                //changed size instead of 40
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(90),
+        child: AppBar(
+          backgroundColor: mainColor,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: Column(
+            children: [
+              Text(
+                ' Register',
+                style: TextStyle(
+                  color: mainBlackColor,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
+            ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Form(
-                key: _fromKey,
+      ),
+      body: Form(
+        key: _fromKey,
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            for (var i = 1; i <= int.parse(widget.textEditingController); i++)
+              SingleChildScrollView(
                 child: Column(
                   children: [
                     Container(
-                      height: 580,
-                      child: ListView.builder(
-                          itemCount: widget.textEditingController.isEmpty
-                              ? 1
-                              : int.parse(widget.textEditingController),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    'Child ${index + 1} ' ' Information',
-                                    style: TextStyle(
-                                      color: mainBlackColor,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, left: 10, right: 10),
-                                  child: TextFormField(
-                                    controller: nameController,
-                                    decoration: InputDecoration(
-                                      hintText: 'Name',
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey, fontSize: 15),
-                                      prefixIcon: Icon(
-                                        Icons.person,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, left: 10, right: 10),
-                                  child: TextFormField(
-                                    controller: classController,
-                                    decoration: InputDecoration(
-                                      hintText: 'class Name',
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey, fontSize: 15),
-                                      prefixIcon: Icon(
-                                        Icons.flight_class_rounded,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 10, left: 10, right: 10),
-                                  child: TextFormField(
-                                    controller: rollController,
-                                    decoration: InputDecoration(
-                                      hintText: 'Id Number',
-                                      hintStyle: TextStyle(
-                                          color: Colors.grey, fontSize: 15),
-                                      prefixIcon: Icon(
-                                        Icons.phone,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                SizedBox(
-                                  height: 44,
-                                  width: 194,
-                                  child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                        primary: mainColor),
-                                    child: Text(
-                                      'Upload image',
-                                      style: TextStyle(color: mainBlackColor),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                ),
-                                CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage('assets/images/children.png'),
-                                  radius: 100,
-                                ),
-                              ],
-                            );
-                          }),
+                      height: 40,
+                      color: mainColor,
+                      child: TabBar(
+                        labelColor: mainBlackColor,
+                        controller: _tabController,
+                        tabs: [
+                          for (var i = 1;
+                              i <= int.parse(widget.textEditingController);
+                              i++)
+                            Text("Child $i")
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        'Child ${i} ' ' Information',
+                        style: TextStyle(
+                          color: mainBlackColor,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      child: TextFormField(
+                        controller: nameController,
+                        decoration: const InputDecoration(
+                          hintText: 'Name',
+                          hintStyle:
+                              TextStyle(color: Colors.grey, fontSize: 15),
+                          prefixIcon: Icon(
+                            Icons.person,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      child: TextFormField(
+                        controller: classController,
+                        decoration: const InputDecoration(
+                          hintText: 'class Name',
+                          hintStyle:
+                              TextStyle(color: Colors.grey, fontSize: 15),
+                          prefixIcon: Icon(
+                            Icons.flight_class_rounded,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      child: TextFormField(
+                        controller: rollController,
+                        decoration: const InputDecoration(
+                          hintText: 'Id Number',
+                          hintStyle:
+                              TextStyle(color: Colors.grey, fontSize: 15),
+                          prefixIcon: Icon(
+                            Icons.phone,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 44,
+                      width: 194,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(primary: mainColor),
+                        child: Text(
+                          'Upload image',
+                          style: TextStyle(color: mainBlackColor),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    const CircleAvatar(
+                      backgroundImage: AssetImage('assets/images/children.png'),
+                      radius: 100,
+                    ),
+                    Divider(
+                      thickness: 4,
+                      color: mainColor,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 200, top: 20),
@@ -185,12 +218,23 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                         width: 194,
                         child: ElevatedButton(
                           onPressed: () {
-                            createChildrenAccount();
-                            Get.toNamed('/vehicleInfoScreen');
+                            if (i == int.parse(widget.textEditingController)) {
+                              // createChildrenAccount(i); //for testing purpose
+                              Get.to(() => VehicleInfoScreen(
+                                    uid: data.uid,
+                                  ));
+                              print(data.uid);
+                              //manage back button strictly.
+                            } else {
+                              // createChildrenAccount(i); //for testing purpose
+                              _toggleTab();
+                            }
                           },
                           style: ElevatedButton.styleFrom(primary: mainColor),
                           child: Text(
-                            'Next',
+                            i == int.parse(widget.textEditingController)
+                                ? "Next"
+                                : "ok",
                             style: TextStyle(color: mainBlackColor),
                           ),
                         ),
@@ -199,8 +243,7 @@ class _ChildInfoScreenState extends State<ChildInfoScreen> {
                   ],
                 ),
               ),
-            ],
-          ),
+          ],
         ),
       ),
     );
