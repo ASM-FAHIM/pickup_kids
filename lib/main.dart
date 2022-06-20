@@ -15,7 +15,6 @@ import 'package:pic_kids/views/registers/personal_info_screen.dart';
 import 'package:pic_kids/views/registers/regi_otp_screen.dart';
 import 'package:pic_kids/views/registers/regi_success_screen.dart';
 import 'package:pic_kids/views/registers/spouse_info_screen.dart';
-import 'package:pic_kids/views/registers/vehicle_info_list.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +52,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/persnInfoScreen', page: () => PersonalInfoScreen()),
         GetPage(name: '/spouseInfoScreen', page: () => SpouseInfoScreen()),
         // GetPage(name: '/childInfoScreen', page: () => ChildInfoScreen(textEditingController: null,)),
-        GetPage(name: '/vehicleInfoScreen', page: () => VehicleInfoScreen()),
+        // GetPage(name: '/vehicleInfoScreen', page: () => VehicleInfoScreen()),
         GetPage(name: '/regiOTPScreen', page: () => RegiOTPScreen()),
         GetPage(name: '/regiSuccessScreen', page: () => RegiSucessScreen()),
         GetPage(name: '/forgotTxtfldScreen', page: () => ForgotPassTxtfld()),

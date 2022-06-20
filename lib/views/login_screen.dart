@@ -27,18 +27,12 @@ class _LoginScreenState extends State<LoginScreen> {
           "user_name": nameController.text,
         }));
     debugPrint(response.body);
+    debugPrint(response.statusCode.toString());
     data = loginModelFromJson(response.body);
-    debugPrint(nameController.text.toString());
-    debugPrint(passController.text.toString());
 
-    if (response.body == null) {
-      Get.snackbar(
-        'Failed',
-        'User not found',
-        backgroundColor: Colors.white,
-      );
-    } else if (response.statusCode == 200 &&
-        data.userPassword == passController.text.toString()) {
+    if (response.statusCode == 200 &&
+        passController.text == data.userPassword) {
+      print("asdasda" + passController.text);
       Get.snackbar(
         'Success',
         'login Successful',

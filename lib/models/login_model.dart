@@ -14,13 +14,13 @@ class LoginModel {
     required this.userPassword,
   });
 
-  String userPassword;
+  dynamic userPassword;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        userPassword: json["user_password"],
+        userPassword: json["xpassword"],
       );
 
   Map<String, dynamic> toJson() => {
-        "user_password": userPassword,
+        "xpassword": userPassword,
       };
 }
