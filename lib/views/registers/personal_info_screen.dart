@@ -387,8 +387,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 if (childNumController.text.isEmpty) {
                                   childNumController.text = 1.toString();
 
-                                  //for using personalInfoController
-                                  //createAccount(); //for testing purpose
+                                  //Using personalInfoController to make a delay
+                                  createAccount(); //for testing purpose it will off
                                   personalInfoController
                                       .isLoadingControl()
                                       .whenComplete(
@@ -399,7 +399,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                                     userNameController.text,
                                               )));
                                 } else {
-                                  //createAccount(); //for testing purpose
+                                  createAccount(); //for testing purpose
                                   personalInfoController
                                       .isLoadingControl()
                                       .whenComplete(
@@ -410,34 +410,6 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                                     userNameController.text,
                                                 // vehicleController: vehicleController.text,
                                               )));
-
-                                  //   createAccount(); //off for testing screen generator.
-                                  //   Future.delayed(Duration(seconds: 2), () {
-                                  //     setState(() {
-                                  //       isLoading = false;
-                                  //     });
-                                  //     Get.to(() => ChildInfoScreen(
-                                  //           textEditingController:
-                                  //               childNumController.text,
-                                  //           userNameController:
-                                  //               userNameController.text,
-                                  //           // vehicleController: vehicleController.text,
-                                  //         ));
-                                  //   });
-                                  // } else {
-                                  //   createAccount(); //off for testing screen generator.
-                                  //   Future.delayed(Duration(seconds: 2), () {
-                                  //     setState(() {
-                                  //       isLoading = false;
-                                  //     });
-                                  //     Get.to(() => ChildInfoScreen(
-                                  //           textEditingController:
-                                  //               childNumController.text,
-                                  //           userNameController:
-                                  //               userNameController.text,
-                                  //           // vehicleController: vehicleController.text,
-                                  //         ));
-                                  //   });
                                 }
                               },
                               style:
@@ -550,22 +522,31 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   }
 }
 
-// for using personalInfoController
-// createAccount(); //for testing purpose
-// personalInfoController.isLoadingControl();
-// Get.to(() => ChildInfoScreen(
-// textEditingController:
-// childNumController.text,
-// userNameController:
-// userNameController.text,
-// ));
+// Monyeems thought
+// createAccount()// off for testing screen generator.
+//   Future.delayed(Duration(seconds: 2), () {
+//     setState(() {
+//       isLoading = false;
+//     });
+//     Get.to(() => ChildInfoScreen(
+//           textEditingController:
+//               childNumController.text,
+//           userNameController:
+//               userNameController.text,
+//           // vehicleController: vehicleController.text,
+//         ));
+//   });
 // } else {
-// // createAccount(); //for testing purpose
-// personalInfoController.isLoadingControl();
-// Get.to(() => ChildInfoScreen(
-// textEditingController:
-// childNumController.text,
-// userNameController:
-// userNameController.text,
-// // vehicleController: vehicleController.text,
-// ));
+//   createAccount(); //off for testing screen generator.
+//   Future.delayed(Duration(seconds: 2), () {
+//     setState(() {
+//       isLoading = false;
+//     });
+//     Get.to(() => ChildInfoScreen(
+//           textEditingController:
+//               childNumController.text,
+//           userNameController:
+//               userNameController.text,
+//           // vehicleController: vehicleController.text,
+//         ));
+//   });
