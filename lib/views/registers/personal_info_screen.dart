@@ -388,7 +388,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                   childNumController.text = 1.toString();
 
                                   //Using personalInfoController to make a delay
-                                  createAccount(); //for testing purpose it will off
+                                  // createAccount(); //for testing purpose it will off
                                   personalInfoController
                                       .isLoadingControl()
                                       .whenComplete(
@@ -399,7 +399,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                                     userNameController.text,
                                               )));
                                 } else {
-                                  createAccount(); //for testing purpose
+                                  //createAccount(); //for testing purpose
                                   personalInfoController
                                       .isLoadingControl()
                                       .whenComplete(
@@ -414,10 +414,20 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                               },
                               style:
                                   ElevatedButton.styleFrom(primary: mainColor),
-                              child: Text(
-                                'Next',
-                                style: TextStyle(color: mainBlackColor),
-                              ),
+                              child: Obx(() {
+                                return personalInfoController.isLoading.value
+                                    ? SizedBox(
+                                        height: 25,
+                                        width: 25,
+                                        child: CircularProgressIndicator(
+                                          color: mainBlackColor,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Next',
+                                        style: TextStyle(color: mainBlackColor),
+                                      );
+                              }),
                             ),
                           ),
                         ),
