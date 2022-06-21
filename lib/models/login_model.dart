@@ -11,16 +11,16 @@ String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 
 class LoginModel {
   LoginModel({
-    required this.userPassword,
+    required this.xpassword,
   });
 
-  dynamic userPassword;
+  dynamic xpassword;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        userPassword: json["xpassword"],
+        xpassword: json["xpassword"],
       );
 
   Map<String, dynamic> toJson() => {
-        "xpassword": userPassword,
+        "xpassword": xpassword,
       };
 }

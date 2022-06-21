@@ -374,7 +374,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                             height: 44,
                             width: 194,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 //for transferring vehicleController value to the vehicle screen.
                                 if (vehicleController.text.isEmpty) {
                                   count = 0;
@@ -388,24 +388,29 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                   childNumController.text = 1.toString();
 
                                   //for using personalInfoController
-                                  createAccount(); //for testing purpose
-                                  personalInfoController.isLoadingControl();
-                                  Get.to(() => ChildInfoScreen(
-                                        textEditingController:
-                                            childNumController.text,
-                                        userNameController:
-                                            userNameController.text,
-                                      ));
+                                  //createAccount(); //for testing purpose
+                                  personalInfoController
+                                      .isLoadingControl()
+                                      .whenComplete(
+                                          () => Get.to(() => ChildInfoScreen(
+                                                textEditingController:
+                                                    childNumController.text,
+                                                userNameController:
+                                                    userNameController.text,
+                                              )));
                                 } else {
-                                  createAccount(); //for testing purpose
-                                  personalInfoController.isLoadingControl();
-                                  Get.to(() => ChildInfoScreen(
-                                        textEditingController:
-                                            childNumController.text,
-                                        userNameController:
-                                            userNameController.text,
-                                        // vehicleController: vehicleController.text,
-                                      ));
+                                  //createAccount(); //for testing purpose
+                                  personalInfoController
+                                      .isLoadingControl()
+                                      .whenComplete(
+                                          () => Get.to(() => ChildInfoScreen(
+                                                textEditingController:
+                                                    childNumController.text,
+                                                userNameController:
+                                                    userNameController.text,
+                                                // vehicleController: vehicleController.text,
+                                              )));
+
                                   //   createAccount(); //off for testing screen generator.
                                   //   Future.delayed(Duration(seconds: 2), () {
                                   //     setState(() {
