@@ -152,6 +152,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.phone,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -182,6 +183,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.phone,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -212,6 +214,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.numbers,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -227,6 +230,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.numbers,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -244,6 +248,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.mail_outline,
                               ),
                             ),
+                            keyboardType: TextInputType.emailAddress,
                           ),
                         ),
                         Padding(
@@ -374,7 +379,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                             height: 44,
                             width: 194,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 //for transferring vehicleController value to the vehicle screen.
                                 if (vehicleController.text.isEmpty) {
                                   count = 0;
@@ -387,60 +392,47 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 if (childNumController.text.isEmpty) {
                                   childNumController.text = 1.toString();
 
-                                  //for using personalInfoController
-                                  createAccount(); //for testing purpose
-                                  personalInfoController.isLoadingControl();
-                                  Get.to(() => ChildInfoScreen(
-                                        textEditingController:
-                                            childNumController.text,
-                                        userNameController:
-                                            userNameController.text,
-                                      ));
+                                  //Using personalInfoController to make a delay
+                                  // createAccount(); //for testing purpose it will off
+                                  personalInfoController
+                                      .isLoadingControl()
+                                      .whenComplete(
+                                          () => Get.to(() => ChildInfoScreen(
+                                                textEditingController:
+                                                    childNumController.text,
+                                                userNameController:
+                                                    userNameController.text,
+                                              )));
                                 } else {
-                                  createAccount(); //for testing purpose
-                                  personalInfoController.isLoadingControl();
-                                  Get.to(() => ChildInfoScreen(
-                                        textEditingController:
-                                            childNumController.text,
-                                        userNameController:
-                                            userNameController.text,
-                                        // vehicleController: vehicleController.text,
-                                      ));
-                                  //   createAccount(); //off for testing screen generator.
-                                  //   Future.delayed(Duration(seconds: 2), () {
-                                  //     setState(() {
-                                  //       isLoading = false;
-                                  //     });
-                                  //     Get.to(() => ChildInfoScreen(
-                                  //           textEditingController:
-                                  //               childNumController.text,
-                                  //           userNameController:
-                                  //               userNameController.text,
-                                  //           // vehicleController: vehicleController.text,
-                                  //         ));
-                                  //   });
-                                  // } else {
-                                  //   createAccount(); //off for testing screen generator.
-                                  //   Future.delayed(Duration(seconds: 2), () {
-                                  //     setState(() {
-                                  //       isLoading = false;
-                                  //     });
-                                  //     Get.to(() => ChildInfoScreen(
-                                  //           textEditingController:
-                                  //               childNumController.text,
-                                  //           userNameController:
-                                  //               userNameController.text,
-                                  //           // vehicleController: vehicleController.text,
-                                  //         ));
-                                  //   });
+                                  //createAccount(); //for testing purpose
+                                  personalInfoController
+                                      .isLoadingControl()
+                                      .whenComplete(
+                                          () => Get.to(() => ChildInfoScreen(
+                                                textEditingController:
+                                                    childNumController.text,
+                                                userNameController:
+                                                    userNameController.text,
+                                                // vehicleController: vehicleController.text,
+                                              )));
                                 }
                               },
                               style:
                                   ElevatedButton.styleFrom(primary: mainColor),
-                              child: Text(
-                                'Next',
-                                style: TextStyle(color: mainBlackColor),
-                              ),
+                              child: Obx(() {
+                                return personalInfoController.isLoading.value
+                                    ? SizedBox(
+                                        height: 25,
+                                        width: 25,
+                                        child: CircularProgressIndicator(
+                                          color: mainBlackColor,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Next',
+                                        style: TextStyle(color: mainBlackColor),
+                                      );
+                              }),
                             ),
                           ),
                         ),
@@ -545,22 +537,31 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
   }
 }
 
-// for using personalInfoController
-// createAccount(); //for testing purpose
-// personalInfoController.isLoadingControl();
-// Get.to(() => ChildInfoScreen(
-// textEditingController:
-// childNumController.text,
-// userNameController:
-// userNameController.text,
-// ));
+// Monyeems thought
+// createAccount()// off for testing screen generator.
+//   Future.delayed(Duration(seconds: 2), () {
+//     setState(() {
+//       isLoading = false;
+//     });
+//     Get.to(() => ChildInfoScreen(
+//           textEditingController:
+//               childNumController.text,
+//           userNameController:
+//               userNameController.text,
+//           // vehicleController: vehicleController.text,
+//         ));
+//   });
 // } else {
-// // createAccount(); //for testing purpose
-// personalInfoController.isLoadingControl();
-// Get.to(() => ChildInfoScreen(
-// textEditingController:
-// childNumController.text,
-// userNameController:
-// userNameController.text,
-// // vehicleController: vehicleController.text,
-// ));
+//   createAccount(); //off for testing screen generator.
+//   Future.delayed(Duration(seconds: 2), () {
+//     setState(() {
+//       isLoading = false;
+//     });
+//     Get.to(() => ChildInfoScreen(
+//           textEditingController:
+//               childNumController.text,
+//           userNameController:
+//               userNameController.text,
+//           // vehicleController: vehicleController.text,
+//         ));
+//   });

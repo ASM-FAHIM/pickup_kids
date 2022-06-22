@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pic_kids/constants/constants.dart';
+import 'package:pic_kids/views/home_screen.dart';
 
 import '../models/login_model.dart';
 
@@ -24,21 +25,20 @@ class _LoginScreenState extends State<LoginScreen> {
     var response = await http.post(
         Uri.parse('http://172.20.20.69/pick_kids/login_account/login.php'),
         body: jsonEncode(<String, String>{
-          "user_name": nameController.text,
+          "xuser_name": nameController.text,
         }));
     debugPrint(response.body);
     debugPrint(response.statusCode.toString());
     data = loginModelFromJson(response.body);
 
-    if (response.statusCode == 200 &&
-        passController.text == data.userPassword) {
+    if (response.statusCode == 200 && passController.text == data.xpassword) {
       print("asdasda" + passController.text);
       Get.snackbar(
         'Success',
         'login Successful',
         backgroundColor: Colors.white,
       );
-      Get.toNamed('/dashboard');
+      Get.to(() => HomeScreen(uid: data.uid));
     } else {
       Get.snackbar(
         "Error",

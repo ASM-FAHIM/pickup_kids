@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../constants/constants.dart';
 
@@ -10,6 +13,13 @@ class RegiSucessScreen extends StatefulWidget {
 }
 
 class _RegiSucessScreenState extends State<RegiSucessScreen> {
+  @override
+  void initState() {
+    Timer(const Duration(seconds: 5), () => Get.offNamed('/login'));
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

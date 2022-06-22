@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pic_kids/constants/constants.dart';
 
+import '../models/get_child_model.dart';
 import '../widgets/cus_drawer.dart';
 import '../widgets/date_container.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  String uid;
+  HomeScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,12 +19,43 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
+  late Future<List<GetChildModel>> future;
+
+  //getting childInformation by uid.
+  Future<List<GetChildModel>> getChildInfo() async {
+    var response = await http.post(
+        Uri.parse('http://172.20.20.69/pick_kids/home_screen/home.php'),
+        body: jsonEncode(<String, String>{"uid": widget.uid}));
+
+    debugPrint(response.body.toString());
+    debugPrint(response.statusCode.toString());
+
+    if (response.statusCode == 200) {
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      return parsed
+          .map<GetChildModel>((json) => GetChildModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception('Failed to fetch Data');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint('--------');
+    getChildInfo();
+    future = getChildInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
-        drawer: CusDrawer(),
+        drawer: const CusDrawer(),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(90),
           child: AppBar(
@@ -61,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.only(top: 50),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 50,
+                  height: 100,
                   decoration: BoxDecoration(
                     color: dashboardContainerColor,
                   ),
@@ -69,12 +105,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 30),
+                        padding: const EdgeInsets.only(left: 10),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(180.0),
                           child: Image.asset(
                             'assets/images/profile3.png',
-                            scale: 20,
+                            scale: 10,
                           ),
                         ),
                       ),
@@ -85,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                             color: dtContainerColor,
                             fontWeight: FontWeight.w500,
-                            fontSize: 20,
+                            fontSize: 25,
                           ),
                         ),
                       ),
@@ -98,57 +134,73 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 width: double.infinity,
                 height: 150,
-                child: ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 50,
-                        width: double.infinity,
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 30),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(180.0),
-                                child: Image.asset(
-                                  'assets/images/children.png',
-                                  scale: 22,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: Text(
-                                "Child Name",
-                                style: TextStyle(
-                                  color: mainBlackColor,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 40),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Get.toNamed('/home');
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: elButtonColor,
+                child: FutureBuilder<List<GetChildModel>>(
+                  future: future,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              height: 70,
+                              width: double.infinity,
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 30),
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(180.0),
+                                      child: Image.asset(
+                                        'assets/images/children.png',
+                                        scale: 15,
+                                      ),
+                                    ),
                                   ),
-                                  child: Text(
-                                    'Set Pickup',
-                                    style: TextStyle(color: mainBlackColor),
+                                  Container(
+                                    width: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        snapshot.data![index].childName,
+                                        style: TextStyle(
+                                          color: mainBlackColor,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 20,
+                                        ),
+                                        // overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        // Get.toNamed('/home');
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: elButtonColor,
+                                      ),
+                                      child: Text(
+                                        'Set Pickup',
+                                        style: TextStyle(color: mainBlackColor),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
+                            );
+                          });
+                    } else {
+                      return Center(
+                        //will add a gif here
+                        child: Text("Loading image"),
                       );
-                    }),
+                    }
+                  },
+                ),
               ),
 
               ///Container for Advertise
