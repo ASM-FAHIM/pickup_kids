@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pic_kids/constants/constants.dart';
+import 'package:pic_kids/views/home_screen.dart';
 
 import '../models/login_model.dart';
 
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         'login Successful',
         backgroundColor: Colors.white,
       );
-      Get.toNamed('/dashboard');
+      Get.to(() => HomeScreen(uid: data.uid));
     } else {
       Get.snackbar(
         "Error",

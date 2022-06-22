@@ -152,6 +152,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.phone,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -182,6 +183,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.phone,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -212,6 +214,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.numbers,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -227,6 +230,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.numbers,
                               ),
                             ),
+                            keyboardType: TextInputType.numberWithOptions(),
                           ),
                         ),
                         Padding(
@@ -244,6 +248,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                 Icons.mail_outline,
                               ),
                             ),
+                            keyboardType: TextInputType.emailAddress,
                           ),
                         ),
                         Padding(

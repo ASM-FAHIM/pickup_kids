@@ -20,7 +20,7 @@ class CusOTPTxtfld extends StatelessWidget {
         keyboardType: TextInputType.number,
         maxLength: 1,
         cursorColor: Theme.of(context).primaryColorDark,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             border: OutlineInputBorder(),
             counterText: ' ',
             hintStyle: TextStyle(color: Colors.grey, fontSize: 20)),

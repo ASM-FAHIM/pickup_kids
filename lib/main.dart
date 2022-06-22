@@ -5,7 +5,6 @@ import 'package:pic_kids/views/contact_screen.dart';
 import 'package:pic_kids/views/forgot/forgot_otp_screen.dart';
 import 'package:pic_kids/views/forgot/forgot_pass_text.dart';
 import 'package:pic_kids/views/histry_screen.dart';
-import 'package:pic_kids/views/home_screen.dart';
 import 'package:pic_kids/views/login_screen.dart';
 import 'package:pic_kids/views/map_screen.dart';
 import 'package:pic_kids/views/notifications/notifications_screen.dart';
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         // GetPage(name: '/', page: () => SplashScreen()),
         GetPage(name: '/login', page: () => LoginScreen()),
-        GetPage(name: '/dashboard', page: () => HomeScreen()),
+        //GetPage(name: '/dashboard', page: () => HomeScreen()),
         GetPage(name: '/profile', page: () => ProfileScreen()),
         GetPage(name: '/pickup', page: () => PickupScreen()),
         GetPage(name: '/notification', page: () => NotificationScreen()),
