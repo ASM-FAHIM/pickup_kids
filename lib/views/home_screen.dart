@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         key: scaffoldKey,
-        drawer: const CusDrawer(),
+        drawer: CusDrawer(),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(90),
           child: AppBar(
@@ -177,7 +177,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.only(
                                         left: 10, right: 10),
                                     child: ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        var response = await http.post(
+                                            Uri.parse(
+                                                'http://172.20.20.69/pick_kids/home_screen/pickup_request.php'),
+                                            body: jsonEncode(<String, String>{
+                                              "child_name": snapshot
+                                                  .data![index].childName,
+                                              "child_class": snapshot
+                                                  .data![index].childClass,
+                                              "child_roll": snapshot
+                                                  .data![index].childRoll,
+                                              "father_name": snapshot
+                                                  .data![index].fatherName,
+                                              "picker_name": snapshot
+                                                  .data![index].pickerName,
+                                              "car_num_plate": snapshot
+                                                  .data![index].carNumplate,
+                                              "child_image": snapshot
+                                                  .data![index].childImage,
+                                              "father_image": "File",
+                                              "picker_image": "File",
+                                              "car_image": snapshot
+                                                  .data![index].carImage,
+                                              "xstatus": "requested",
+                                            }));
+                                        debugPrint(
+                                            response.statusCode.toString());
+                                        debugPrint(response.body.toString());
                                         // Get.toNamed('/home');
                                       },
                                       style: ElevatedButton.styleFrom(
