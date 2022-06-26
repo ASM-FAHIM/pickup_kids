@@ -6,7 +6,7 @@ class PersonalInfoController extends GetxController {
   isLoadingControl() async {
     isLoading(true);
     print(isLoading);
-    await Future.delayed(Duration(seconds: 3), () {
+    await Future.delayed(Duration(seconds: 2), () {
       isLoading(false);
       print(isLoading);
     });

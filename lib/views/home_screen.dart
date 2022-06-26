@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pic_kids/constants/constants.dart';
 
@@ -9,8 +10,8 @@ import '../widgets/cus_drawer.dart';
 import '../widgets/date_container.dart';
 
 class HomeScreen extends StatefulWidget {
-  String uid;
-  HomeScreen({Key? key, required this.uid}) : super(key: key);
+  final String uid;
+  const HomeScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -205,6 +206,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         debugPrint(
                                             response.statusCode.toString());
                                         debugPrint(response.body.toString());
+                                        Get.snackbar(
+                                            "Successful", "Pickup request sent",
+                                            backgroundColor: mainColor,
+                                            colorText: mainBlackColor,
+                                            snackPosition:
+                                                SnackPosition.BOTTOM);
+
                                         // Get.toNamed('/home');
                                       },
                                       style: ElevatedButton.styleFrom(

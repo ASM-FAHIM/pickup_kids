@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:pic_kids/controllers/register_controller.dart';
+import 'package:pic_kids/controllers/vehicle_controller.dart';
 
 import '../../constants/constants.dart';
 
@@ -26,6 +29,11 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
   final TextEditingController car3Controller = TextEditingController();
 
   RegisterController registerController = Get.put(RegisterController());
+  VehicleController vehicleController = Get.put(VehicleController());
+
+  //image pick
+  File? pickedFile;
+  ImagePicker imagePicker = ImagePicker();
 
   //Using Tabbar
   int _tabIndex = 0;
@@ -46,7 +54,7 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
     _tabController.animateTo(_tabIndex);
   }
 
-  //create children method
+  //create vehicle method
   createVehicleAccount(int row) async {
     var response = await http.post(
         Uri.parse('http://172.20.20.69/pick_kids/create_account/vehicle.php'),
@@ -58,7 +66,7 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
           "lisense": licenceController.text,
           "nid": nidController.text,
           "car_numplate": car1Controller.text,
-          "car_image": "car_image_png",
+          "car_image": "upload when needed",
           "driver_image": "driver_image_png",
         }));
     debugPrint(response.statusCode.toString());
@@ -129,16 +137,16 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
                       padding:
                           const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
-                        controller: mobileController,
-                        decoration: InputDecoration(
-                          hintText: 'Mobile number',
-                          hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 15),
-                          prefixIcon: Icon(
-                            Icons.phone,
+                          controller: mobileController,
+                          decoration: InputDecoration(
+                            hintText: 'Mobile number',
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 15),
+                            prefixIcon: Icon(
+                              Icons.phone,
+                            ),
                           ),
-                        ),
-                      ),
+                          keyboardType: TextInputType.numberWithOptions()),
                     ),
                     Padding(
                       padding:
@@ -159,16 +167,16 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
                       padding:
                           const EdgeInsets.only(top: 10, left: 10, right: 10),
                       child: TextFormField(
-                        controller: nidController,
-                        decoration: InputDecoration(
-                          hintText: 'NID Number',
-                          hintStyle:
-                              TextStyle(color: Colors.grey, fontSize: 15),
-                          prefixIcon: Icon(
-                            Icons.card_membership_sharp,
+                          controller: nidController,
+                          decoration: InputDecoration(
+                            hintText: 'NID Number',
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 15),
+                            prefixIcon: Icon(
+                              Icons.card_membership_sharp,
+                            ),
                           ),
-                        ),
-                      ),
+                          keyboardType: TextInputType.numberWithOptions()),
                     ),
                     Padding(
                       padding:
@@ -188,33 +196,43 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
                     SizedBox(
                       height: 20,
                     ),
+
+                    //order from higher end "no need to take car image"
+                    // SizedBox(
+                    //   height: 44,
+                    //   width: 194,
+                    //   child: ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ElevatedButton.styleFrom(primary: mainColor),
+                    //     child: Text(
+                    //       'Upload car image',
+                    //       style: TextStyle(color: mainBlackColor),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 20,
+                    // ),
+                    // CircleAvatar(
+                    //   backgroundImage: AssetImage('assets/images/carImage.png'),
+                    //   radius: 100,
+                    // ),
+
+                    SizedBox(
+                      height: 20,
+                    ),
                     SizedBox(
                       height: 44,
                       width: 194,
                       child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(primary: mainColor),
-                        child: Text(
-                          'Upload car image',
-                          style: TextStyle(color: mainBlackColor),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/carImage.png'),
-                      radius: 100,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 44,
-                      width: 194,
-                      child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (context) {
+                                return bottomSheet(context);
+                              });
+                        },
                         style: ElevatedButton.styleFrom(primary: mainColor),
                         child: Text(
                           'Upload driver image',
@@ -225,10 +243,16 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
                     SizedBox(
                       height: 20,
                     ),
-                    CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/driverImage.png'),
-                      radius: 100,
+                    Obx(
+                      () => CircleAvatar(
+                        backgroundImage:
+                            vehicleController.isProfilePicPathSet.value == true
+                                ? FileImage(File(
+                                        vehicleController.profilePicPath.value))
+                                    as ImageProvider
+                                : AssetImage('assets/images/driverImage.png'),
+                        radius: 100,
+                      ),
                     ),
                     SizedBox(
                       height: 50,
@@ -245,11 +269,11 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
                         child: ElevatedButton(
                           onPressed: () {
                             if (i == registerController.saveNumber.value) {
-                              //createVehicleAccount(i); //for testing purpose
+                              createVehicleAccount(i); //for testing purpose
                               //manage back button strictly.
                               Get.offNamed('/regiOTPScreen');
                             } else {
-                              //createVehicleAccount(i); //for testing purpose
+                              createVehicleAccount(i); //for testing purpose
                               _toggleTab();
                             }
                           },
@@ -273,5 +297,90 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen>
         ),
       ),
     );
+  }
+
+  Widget bottomSheet(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: double.maxFinite,
+      height: size.height * .2,
+      decoration: BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Choose profile photo",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  debugPrint('Image clicked');
+                  takePhoto(ImageSource.gallery);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.image_outlined,
+                      size: 40,
+                    ),
+                    Text(
+                      'Gallery',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              GestureDetector(
+                onTap: () {
+                  debugPrint('Image clicked');
+                  takePhoto(ImageSource.camera);
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.camera,
+                      size: 40,
+                    ),
+                    Text(
+                      'Camera',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Future<void> takePhoto(ImageSource source) async {
+    final pickedImage =
+        await imagePicker.pickImage(source: source, imageQuality: 100);
+
+    pickedFile = File(pickedImage!.path);
+    vehicleController.setProfileImagePath(pickedFile!.path);
+    print(pickedFile);
   }
 }

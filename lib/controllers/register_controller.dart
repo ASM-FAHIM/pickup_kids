@@ -3,14 +3,13 @@ import 'package:get/get.dart';
 class RegisterController extends GetxController {
   var isProfilePicPathSet = false.obs;
   var profilePicPath = "".obs;
+  var isProfilePicPathSet1 = false.obs;
+  var profilePicPath1 = "".obs;
+
   void initState() {
     super.onInit();
     setProfileImagePath(profilePicPath.value);
-  }
-
-  void dispose() {
-    super.dispose();
-    // saveValue();
+    setProfileImagePath1(profilePicPath1.value);
   }
 
   void setProfileImagePath(String path) {
@@ -18,6 +17,15 @@ class RegisterController extends GetxController {
       profilePicPath.value = path;
       //we can write it isProfilePicSet(true).
       isProfilePicPathSet.value = true;
+      Get.back();
+    } finally {}
+  }
+
+  void setProfileImagePath1(String path) {
+    try {
+      profilePicPath1.value = path;
+      //we can write it isProfilePicSet(true).
+      isProfilePicPathSet1.value = true;
       Get.back();
     } finally {}
   }
