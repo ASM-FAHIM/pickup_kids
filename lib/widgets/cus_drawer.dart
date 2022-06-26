@@ -5,7 +5,7 @@ import '../constants/constants.dart';
 import 'custom_back.dart';
 
 class CusDrawer extends StatelessWidget {
-  const CusDrawer({
+  CusDrawer({
     Key? key,
   }) : super(key: key);
 
