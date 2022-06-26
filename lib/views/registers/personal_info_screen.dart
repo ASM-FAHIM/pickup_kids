@@ -41,7 +41,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
 
   //for taking image from mobile
   File? pickedFile;
-  int count = 0;
+  File? pickedFile1;
+  late int count = 0;
   ImagePicker imagePicker = ImagePicker();
 
   //create profile method
@@ -342,7 +343,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                   backgroundColor: Colors.transparent,
                                   context: context,
                                   builder: (context) {
-                                    return bottomSheet(context);
+                                    return bottomSheet1(context);
                                   });
                             },
                             style: ElevatedButton.styleFrom(primary: mainColor),
@@ -360,10 +361,11 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                         Obx(
                           () => CircleAvatar(
                             backgroundImage:
-                                registerController.isProfilePicPathSet.value ==
+                                registerController.isProfilePicPathSet1.value ==
                                         true
                                     ? FileImage(File(registerController
-                                        .profilePicPath.value)) as ImageProvider
+                                        .profilePicPath1
+                                        .value)) as ImageProvider
                                     : AssetImage('assets/images/profile3.png'),
                             radius: 100,
                           ),
@@ -393,7 +395,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                   childNumController.text = 1.toString();
 
                                   //Using personalInfoController to make a delay
-                                  // createAccount(); //for testing purpose it will off
+                                  createAccount(); //for testing purpose it will off
                                   personalInfoController
                                       .isLoadingControl()
                                       .whenComplete(
@@ -404,7 +406,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                                                     userNameController.text,
                                               )));
                                 } else {
-                                  //createAccount(); //for testing purpose
+                                  createAccount(); //for testing purpose
                                   personalInfoController
                                       .isLoadingControl()
                                       .whenComplete(
@@ -478,7 +480,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   debugPrint('Image clicked');
                   takePhoto(ImageSource.gallery);
@@ -501,10 +503,86 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
               SizedBox(
                 width: 50,
               ),
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   debugPrint('Image clicked');
                   takePhoto(ImageSource.camera);
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.camera,
+                      size: 40,
+                    ),
+                    Text(
+                      'Camera',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget bottomSheet1(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: double.maxFinite,
+      height: size.height * .2,
+      decoration: BoxDecoration(
+        color: mainColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Choose profile photo",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  debugPrint('Image clicked');
+                  takePhoto1(ImageSource.gallery);
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.image_outlined,
+                      size: 40,
+                    ),
+                    Text(
+                      'Gallery',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              GestureDetector(
+                onTap: () {
+                  debugPrint('Image clicked');
+                  takePhoto1(ImageSource.camera);
                 },
                 child: Column(
                   children: [
@@ -533,6 +611,15 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
 
     pickedFile = File(pickedImage!.path);
     registerController.setProfileImagePath(pickedFile!.path);
+    print(pickedFile);
+  }
+
+  Future<void> takePhoto1(ImageSource source1) async {
+    final pickedImage1 =
+        await imagePicker.pickImage(source: source1, imageQuality: 100);
+
+    pickedFile1 = File(pickedImage1!.path);
+    registerController.setProfileImagePath1(pickedFile1!.path);
     print(pickedFile);
   }
 }

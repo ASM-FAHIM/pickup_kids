@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class ChildPicController extends GetxController {
+class VehicleController extends GetxController {
   var isProfilePicPathSet = false.obs;
   var profilePicPath = "".obs;
 
